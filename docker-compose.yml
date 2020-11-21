@@ -9,7 +9,13 @@ services:
       - POSTGRES_PASSWORD=postgres
     container_name: db
 
+  redis:
+      image: "redis:alpine"
+      container_name: redis
+
   web:
+    env_file:
+        - web-variables.env
     build: .
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
@@ -19,3 +25,13 @@ services:
     depends_on:
       - db
     container_name: web
+
+  celery:
+      build: .
+      command: celery -A medicalvisits worker -l info
+      volumes:
+        - .:/app
+      depends_on: 
+        - db
+        - redis
+      container_name: celery

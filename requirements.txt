@@ -3,3 +3,5 @@ djangorestframework==3.11.1
 psycopg2-binary>=2.8
 djangorestframework_simplejwt
 django_rest_passwordreset
+celery==4.4.1
+redis==3.2.0
