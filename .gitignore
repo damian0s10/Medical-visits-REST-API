@@ -1,0 +1,4 @@
+account/__pycache__
+medicalvisits/__pycache__
+visits/__pycache__
+web-variables.env
