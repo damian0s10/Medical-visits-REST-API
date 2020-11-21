@@ -41,8 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'visits',
-    'account',
+    'visits.apps.VisitsConfig',
+    'account.apps.AccountConfig',
     'django_rest_passwordreset',
 ]
 
