@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework import generics
+from visits.models import Patient, Doctor
  
 
 #Register API
@@ -15,6 +16,12 @@ class RegisterApi(generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         user = serializer.save()
+        
+        if user.is_patient: 
+            patient = Patient.objects.create(user=user)
+        if user.is_doctor: 
+            doctor = Doctor.objects.create(user=user)
+
         return Response({
             "user": UserSerializer(user, context=self.get_serializer_context()).data,
             "message": "User Created Successfully. Now perform Login to get your token",
