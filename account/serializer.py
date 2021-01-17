@@ -1,4 +1,4 @@
-from rest_framework import  serializers
+from rest_framework import serializers
 from rest_framework.permissions import IsAuthenticated
 from django.db import models
 from visits.models import User
@@ -6,7 +6,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.hashers import make_password
 
 
-# Register serializer
+
 class RegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -21,6 +21,8 @@ class RegisterSerializer(serializers.ModelSerializer):
                 username = validated_data['username'],     
                 password = validated_data['password'],
                 email = validated_data['email'],
+                first_name = validated_data['first_name'] if 'first_name' in validated_data else '',
+                last_name = validated_data['last_name'] if 'last_name' in validated_data else '',
                 is_patient = True if 'is_patient' in validated_data and validated_data['is_patient']==True else False,
                 is_doctor = True if 'is_doctor' in validated_data and validated_data['is_doctor']==True else False
                 )

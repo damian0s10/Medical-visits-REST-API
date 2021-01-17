@@ -14,7 +14,7 @@ class User(AbstractUser):
 
 
 class Patient(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    user = models.OneToOneField(User, related_name='patient', on_delete=models.CASCADE, primary_key=True)
     pesel = models.CharField(max_length=11)
 
 
@@ -34,7 +34,8 @@ class Doctor(models.Model):
     about_me = models.TextField()
     specjalizations = models.ManyToManyField(Specjalization)
     
-
+    def __str__(self):
+        return self.user.first_name + " " + self.user.last_name
 
 
 class MedicalClinic(models.Model):
@@ -49,6 +50,15 @@ class MedicalClinic(models.Model):
     def __str__(self):
         return self.city +", "+ self.street + " " + self.local
 
+class AvailableVisits(models.Model):
+    doctor = models.ForeignKey(Doctor, verbose_name='doctor_visits', on_delete=models.CASCADE)
+    medical_clinic = models.ForeignKey(MedicalClinic, verbose_name='clinic_visits', on_delete=models.CASCADE) 
+    time = models.TimeField(auto_now=False, auto_now_add=False)
+    date = models.DateField(auto_now=False, auto_now_add=False)
+    is_available = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ['date']
 
 class MedicalVisit(models.Model):
     doctor = models.ForeignKey(Doctor, verbose_name='doctor_visits', on_delete=models.CASCADE)
@@ -56,6 +66,7 @@ class MedicalVisit(models.Model):
     medical_clinic = models.ForeignKey(MedicalClinic, verbose_name='clinic_visits', on_delete=models.CASCADE) 
     time = models.TimeField(auto_now=False, auto_now_add=False)
     date = models.DateField(auto_now=False, auto_now_add=False)
+    note = models.TextField()
 
     class Meta:
         ordering = ['date']

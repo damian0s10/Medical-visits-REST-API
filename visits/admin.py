@@ -42,3 +42,7 @@ class MedicalClinicAdmin(admin.ModelAdmin):
 @admin.register(MedicalVisit)
 class MedicalVisitAdmin(admin.ModelAdmin):
     pass
+
+@admin.register(AvailableVisits)
+class DoctorAdmin(admin.ModelAdmin):
+    list_display = ('doctor', 'medical_clinic', 'time', 'date', 'is_available')
