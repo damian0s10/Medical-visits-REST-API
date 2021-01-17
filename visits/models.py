@@ -31,8 +31,8 @@ class Specjalization(models.Model):
 
 class Doctor(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    about_me = models.TextField()
-    specjalizations = models.ManyToManyField(Specjalization)
+    about_me = models.TextField(blank=True)
+    specjalizations = models.ManyToManyField(Specjalization, blank=True)
     
     def __str__(self):
         return self.user.first_name + " " + self.user.last_name
@@ -66,7 +66,7 @@ class MedicalVisit(models.Model):
     medical_clinic = models.ForeignKey(MedicalClinic, verbose_name='clinic_visits', on_delete=models.CASCADE) 
     time = models.TimeField(auto_now=False, auto_now_add=False)
     date = models.DateField(auto_now=False, auto_now_add=False)
-    note = models.TextField()
+    note = models.TextField(blank=True)
 
     class Meta:
         ordering = ['date']

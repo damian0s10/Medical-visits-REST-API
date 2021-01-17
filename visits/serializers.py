@@ -14,39 +14,70 @@ class PatientSerializer(serializers.ModelSerializer):
         model = Patient
         fields = ['pesel', 'user']
 
-class SpecjalizationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Specjalization
-        fields = '__all__'
+class SpecjalizationSerializer(serializers.Serializer):
+    name = serializers.CharField(allow_blank=True)
 
-class DoctorSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
-    specjalizations = SpecjalizationSerializer()
+
+
+class DoctorSerializerGET(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    specjalizations = SpecjalizationSerializer(read_only=True, many=True)
+
     class Meta:
         model = Doctor
         fields = ['about_me', 'user','specjalizations']
 
 
-class MedicalClinicSerializer(serializers.ModelSerializer):
-    doctor = DoctorSerializer()
+class DoctorSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Doctor
+        fields = ['about_me', 'user','specjalizations']
+
+
+
+        
+class MedicalClinicSerializerGET(serializers.ModelSerializer):
+    doctor = DoctorSerializerGET()
 
     class Meta:
         model = MedicalClinic
         fields = ['id','city', 'street', 'local', 'doctor']
 
+class MedicalClinicSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MedicalClinic
+        fields = ['id','city', 'street', 'local', 'doctor']
+
+
+
+
+class AvailableVisitsSerializerGET(serializers.ModelSerializer):
+    doctor = DoctorSerializerGET()
+    medical_clinic = MedicalClinicSerializerGET()
+
+    class Meta:
+        model = AvailableVisits
+        fields = ['id','doctor','medical_clinic','time','date','is_available','doctor']
+
 class AvailableVisitsSerializer(serializers.ModelSerializer):
-    doctor = DoctorSerializer()
-    medical_clinic = MedicalClinicSerializer()
 
     class Meta:
         model = AvailableVisits
         fields = ['id','doctor','medical_clinic','time','date','is_available','doctor']
 
 
-class MedicalVisitSerializer(serializers.ModelSerializer):
-    doctor = DoctorSerializer()
-    medical_clinic = MedicalClinicSerializer()
+class MedicalVisitSerializerGET(serializers.ModelSerializer):
+    doctor = DoctorSerializerGET()
+    medical_clinic = MedicalClinicSerializerGET()
 
     class Meta:
-        model = AvailableVisits
-        fields = ['doctor','patient','medical_clinic','time','date','note','doctor']
+        model = MedicalVisit
+        fields = ['id','doctor','patient','medical_clinic','time','date','note','doctor']
+
+class MedicalVisitSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = MedicalVisit
+        fields = ['id','doctor','patient','medical_clinic','time','date','note','doctor']
