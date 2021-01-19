@@ -77,9 +77,24 @@ class DoctorSpecjalizationList(APIView):
     def get(self, request, name):
 
         doctors = self.get_objects(name)
+        serializer = DoctorSerializerGET(doctors, many=True)
+        return Response(serializer.data)
+
+class DoctorSpecjalizationCityList(APIView):
+    
+    def get_objects(self, name, city):
+        
+        try:
+            return Doctor.objects.filter(specjalizations__name__iexact= name).filter(doctor_clinic__city__iexact=city)
+        except Doctor.DoesNotExist:
+            raise Http404
+
+    def get(self, request, name, city):
+
+        doctors = self.get_objects(name,city)
         print(doctors)
         for d in doctors:
-            print(d.doctor_clinic)
+            print(d.doctor_clinic.all())
         serializer = DoctorSerializerGET(doctors, many=True)
         return Response(serializer.data)
         

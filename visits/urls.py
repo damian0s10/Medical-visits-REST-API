@@ -13,6 +13,8 @@ urlpatterns = [
      path('doctors/<int:pk>/', DoctorDetail.as_view()),
 
      path('doctors/specjalizations/<str:name>/', DoctorSpecjalizationList.as_view()),
+      path('doctors/specjalizations/<str:name>/<str:city>/', DoctorSpecjalizationCityList.as_view()),
+     
 
      path('medicalclinics', MedicalClinicListView.as_view()),
      path('medicalclinics/<int:pk>/', MedicalClinicDetail.as_view()),
@@ -27,5 +29,4 @@ urlpatterns = [
      path('medicalvisits', MedicalVisitsListView.as_view()),
      path('medicalvisits/<int:pk>/', MedicalVisitsDetail.as_view()),
 
-     #to do get doctor by specialization, get all patients
 ]
