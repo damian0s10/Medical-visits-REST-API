@@ -42,7 +42,7 @@ class MedicalClinic(models.Model):
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
     local = models.CharField(max_length=10)
-    doctor = models.ForeignKey(Doctor, verbose_name='doctor_clinic', on_delete=models.CASCADE)
+    doctor = models.ForeignKey(Doctor, related_name='doctor_clinic', on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['city']
@@ -51,8 +51,8 @@ class MedicalClinic(models.Model):
         return self.city +", "+ self.street + " " + self.local
 
 class AvailableVisits(models.Model):
-    doctor = models.ForeignKey(Doctor, verbose_name='doctor_visits', on_delete=models.CASCADE)
-    medical_clinic = models.ForeignKey(MedicalClinic, verbose_name='clinic_visits', on_delete=models.CASCADE) 
+    doctor = models.ForeignKey(Doctor, related_name='doctor_visits', on_delete=models.CASCADE)
+    medical_clinic = models.ForeignKey(MedicalClinic, related_name='clinic_visits', on_delete=models.CASCADE) 
     time = models.TimeField(auto_now=False, auto_now_add=False)
     date = models.DateField(auto_now=False, auto_now_add=False)
     is_available = models.BooleanField(default=True)
@@ -61,9 +61,9 @@ class AvailableVisits(models.Model):
         ordering = ['date']
 
 class MedicalVisit(models.Model):
-    doctor = models.ForeignKey(Doctor, verbose_name='doctor_visits', on_delete=models.CASCADE)
-    patient = models.ForeignKey(Patient, verbose_name='patient_visits', on_delete=models.CASCADE)
-    medical_clinic = models.ForeignKey(MedicalClinic, verbose_name='clinic_visits', on_delete=models.CASCADE) 
+    doctor = models.ForeignKey(Doctor, related_name='doctor_medical_visits', on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, related_name='patient_medical_visits', on_delete=models.CASCADE)
+    medical_clinic = models.ForeignKey(MedicalClinic, related_name='clinic_medical_visits', on_delete=models.CASCADE) 
     time = models.TimeField(auto_now=False, auto_now_add=False)
     date = models.DateField(auto_now=False, auto_now_add=False)
     note = models.TextField(blank=True)

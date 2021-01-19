@@ -7,17 +7,26 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
         fields = ['id', 'first_name', 'last_name']
 
-class PatientSerializer(serializers.ModelSerializer):
+class PatientSerializerGET(serializers.ModelSerializer):
     user = UserSerializer()
 
     class Meta:
         model = Patient
         fields = ['pesel', 'user']
 
+
+class PatientSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Patient
+        fields = ['pesel', 'user']
+
+
+
 class SpecjalizationSerializer(serializers.Serializer):
     name = serializers.CharField(allow_blank=True)
 
-
+        
 
 class DoctorSerializerGET(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -25,7 +34,7 @@ class DoctorSerializerGET(serializers.ModelSerializer):
 
     class Meta:
         model = Doctor
-        fields = ['about_me', 'user','specjalizations']
+        fields = ['about_me', 'user','specjalizations', 'doctor_clinic']
 
 
 class DoctorSerializer(serializers.ModelSerializer):

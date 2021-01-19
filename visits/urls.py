@@ -4,13 +4,15 @@ from rest_framework.routers import DefaultRouter
 
 app_name = 'visits'
 
-router = DefaultRouter()
-router.register(r'patients', PatientViewSet)
-
 urlpatterns = [
-     path('', include(router.urls)),
+
+     path('patients', PatientListView.as_view()),
+     path('patients/<int:pk>/', PatientDetail.as_view()),
+
      path('doctors', DoctorListView.as_view()),
      path('doctors/<int:pk>/', DoctorDetail.as_view()),
+
+     path('doctors/specjalizations/<str:name>/', DoctorSpecjalizationList.as_view()),
 
      path('medicalclinics', MedicalClinicListView.as_view()),
      path('medicalclinics/<int:pk>/', MedicalClinicDetail.as_view()),
@@ -24,4 +26,6 @@ urlpatterns = [
 
      path('medicalvisits', MedicalVisitsListView.as_view()),
      path('medicalvisits/<int:pk>/', MedicalVisitsDetail.as_view()),
+
+     #to do get doctor by specialization, get all patients
 ]
