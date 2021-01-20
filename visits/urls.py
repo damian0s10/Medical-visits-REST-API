@@ -1,6 +1,7 @@
 from django.urls import path, include
 from .api import *
 from rest_framework.routers import DefaultRouter
+from rest_framework.urlpatterns import format_suffix_patterns
 
 app_name = 'visits'
 
@@ -30,3 +31,5 @@ urlpatterns = [
      path('medicalvisits/<int:pk>/', MedicalVisitsDetail.as_view()),
 
 ]
+
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json', 'xml'])

@@ -44,7 +44,17 @@ INSTALLED_APPS = [
     'visits.apps.VisitsConfig',
     'account.apps.AccountConfig',
     'django_rest_passwordreset',
+    'rest_framework_xml',
 ]
+
+REST_FRAMEWORK = {
+  'DEFAULT_PARSER_CLASSES': (
+    'rest_framework_xml.parsers.XMLParser',
+  ),
+    'DEFAULT_RENDERER_CLASSES': (
+    'rest_framework_xml.renderers.XMLRenderer',
+  ),
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

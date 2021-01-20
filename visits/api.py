@@ -9,6 +9,9 @@ from django.http import Http404
 from rest_framework.permissions import IsAuthenticated, BasePermission
 from datetime import datetime
 from django.db.models import Q
+from rest_framework_xml.parsers import XMLParser
+from rest_framework_xml.renderers import XMLRenderer
+
 
 class PatientViewSet(viewsets.ModelViewSet):
     serializer_class = PatientSerializer
@@ -60,6 +63,9 @@ class PatientDetail(APIView):
         return Response(status=status.HTTP_403_FORBIDDEN)    
 
 class DoctorListView(APIView):
+    parser_classes = (XMLParser,)
+    renderer_classes = (XMLRenderer,)
+
     def get(self, request):
         doctors = Doctor.objects.all()
         serializer = DoctorSerializer(doctors, many=True)
