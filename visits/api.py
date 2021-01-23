@@ -257,7 +257,7 @@ class AvailableDoctorVisits(APIView):
 # Medical visits
 
 class CreateMedicalVisit(APIView):
-    permission_classes = (IsPatient,)
+    permission_classes = (IsAuthenticated, IsPatient,)
 
     def get_object(self, pk):
         try:
